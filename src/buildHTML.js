@@ -1095,7 +1095,7 @@ groupTypes.sqrt = function(group, options) {
     // Create a sqrt SVG of the required minimum size
     const img = delimiter.customSizedDelim("\\surd", minDelimiterHeight,
                     false, options, group.mode);
-    
+
     // Recover surdWidth from where it was mis-placed in img.depth.
     const surdWidth = img.depth + "em";
     img.depth = 0;    // Set the correct img.depth.

@@ -344,7 +344,7 @@ const sqrtSpan = function(height, delimData, options) {
 
         let color = "black";
         if (options.color) {
-            color = options.color.replace(/#/, "%23")  // url escape
+            color = options.color.replace(/#/, "%23");  // url escape
         }
 
         // To make a \sqrt that is customized in both height and width, we
