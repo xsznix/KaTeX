@@ -8,7 +8,7 @@
     "url": "git://github.com/Khan/KaTeX.git"
   },
   "files": [
-    "katex.js",
+    "dist/katex.js",
     "cli.js",
     "src/",
     "dist/"
