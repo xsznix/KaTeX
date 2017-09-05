@@ -26,6 +26,7 @@ export UGLIFYJS = $(realpath ./node_modules/.bin/uglifyjs) \
 	--mangle \
 	--beautify \
 	ascii_only=true,beautify=false
+export CLEANCSS = $(realpath ./node_modules/.bin/cleancss)
 
 # The prepublish script in package.json will override the following variable,
 # setting it to the empty string and thereby avoiding an infinite recursion
@@ -48,7 +49,7 @@ build/katex.css: static/katex.less $(wildcard static/*.less) $(NIS)
 	./node_modules/.bin/lessc $< $@
 
 build/katex.min.css: build/katex.css
-	./node_modules/.bin/cleancss -o $@ $<
+	$(CLEANCSS) -o $@ $<
 
 .PHONY: build/fonts
 build/fonts:
@@ -73,15 +74,11 @@ build/contrib:
 	@# there's nothing in there we don't want.
 	rm -rf build/contrib/*
 	$(MAKE) -C contrib/auto-render
-
-.PHONY: build/images
-build/images:
-	rm -rf $@
-	mkdir -p build
-	cp -r static/images $@
+	$(MAKE) -C contrib/copy-tex
+	$(MAKE) -C contrib/mathtex-script-type
 
 .PHONY: build/katex
-build/katex: build/katex.js build/katex.min.js build/katex.css build/katex.min.css build/fonts build/images README.md build/contrib
+build/katex: build/katex.js build/katex.min.js build/katex.css build/katex.min.css build/fonts README.md build/contrib
 	mkdir -p build/katex
 	rm -rf build/katex/*
 	cp -r $^ build/katex
@@ -105,6 +102,9 @@ compress: build/katex.min.js build/katex.min.css
 
 serve: $(NIS)
 	$(NODE) server.js
+
+flow: $(NIS)
+	node_modules/.bin/flow
 
 test: $(NIS)
 	node_modules/.bin/jest
